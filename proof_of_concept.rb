@@ -7,4 +7,5 @@ ShellProxy.new.__main__ do
   mkdir "foo/bar/thing", { :p => nil }
 
   rm "foo",  { :r => nil, :f => nil }
+  mongod({ :config => "/usr/local/etc/mongod.conf" })
 end
