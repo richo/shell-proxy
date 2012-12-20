@@ -1,6 +1,10 @@
 class ShellProxy
+
+  def __main__(&block)
+    instance_exec(&block)
+  end
+
   def method_missing(sym, *args)
-    puts "#{sym} called with '#{args}'"
     opts = case args[-1]
            when Hash
              args.pop
@@ -8,9 +12,9 @@ class ShellProxy
              {}
            end
 
-    cmd = sym
-    cmd << " #{__process(opts)}" unless opts.empty?
-    cmd << " #{__escape(args)}"  unless args.empty?
+    cmd = sym.to_s
+    cmd << " #{__process_opts(opts)}" unless opts.empty?
+    cmd << " #{__process_args(args)}"  unless args.empty?
     __emit cmd
   end
 
@@ -21,6 +25,33 @@ class ShellProxy
 
   def __writer
     @writer ||= ShellWriter.new($stdout)
+  end
+
+  def __process_args(args)
+    args.map do |v|
+      __escapinate(v)
+    end.join(" ")
+  end
+
+  def __process_opts(opts)
+    outputs = []
+    __process_and_escape(opts) do |value|
+      outputs << value
+    end
+    outputs.join(" ")
+  end
+
+  def __process_and_escape(opts)
+    opts.each do |k, v|
+      k = k.to_s
+      k = (k.length == 1 ? "-" : "--") + k
+      yield __escapinate(k)
+      yield __escapinate(v) unless v.nil?
+    end
+  end
+
+  def __escapinate(v)
+    "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
   end
 
 end
