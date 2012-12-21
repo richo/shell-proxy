@@ -1,7 +1,28 @@
 class ShellProxy
 
+  INDENT_PADDING="  "
+
+  def initialize
+    @indent = 0
+  end
+
   def __main__(&block)
     instance_exec(&block)
+  end
+
+  def __subshell(&block)
+    __emit("(")
+    @indent += 1
+    yield
+    @indent -= 1
+    __emit(")")
+  end
+
+  def __chdir(dir, &block)
+    __subshell do
+      cd(dir)
+      yield
+    end
   end
 
   def method_missing(sym, *args)
@@ -19,6 +40,7 @@ class ShellProxy
   end
 
   def __emit(str)
+    __writer.write(INDENT_PADDING * @indent)
     __writer.puts(str)
     __writer.flush
   end
@@ -66,6 +88,10 @@ class ShellWriter
     else
       raise "I don't know what to do"
     end
+  end
+
+  def write(str)
+    @to.write(str)
   end
 
   def puts(str)
