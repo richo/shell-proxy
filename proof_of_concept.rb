@@ -4,6 +4,11 @@ ShellProxy.new.__main__ do
   cd "Somedir"
 
   __subshell do
+    __subshell do
+      mkdir "borp"
+      cd "borp"
+      touch "thing"
+    end
     touch "somefile"
     mkdir "foo/bar/thing", { :p => nil }
   end

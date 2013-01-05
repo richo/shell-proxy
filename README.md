@@ -12,6 +12,11 @@ ShellProxy.new.__main__ do
   cd "Somedir"
 
   __subshell do
+    __subshell do
+      mkdir "borp"
+      cd "borp"
+      touch "thing"
+    end
     touch "somefile"
     mkdir "foo/bar/thing", { :p => nil }
   end
@@ -30,6 +35,11 @@ outputs:
 ```bash
 cd 'Somedir'
 (
+  (
+    mkdir 'borp'
+    cd 'borp'
+    touch 'thing'
+  )
   touch 'somefile'
   mkdir '-p' 'foo/bar/thing'
 )
