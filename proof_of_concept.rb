@@ -9,8 +9,9 @@ ShellProxy.new.__main__ do
       cd "borp"
       touch "thing"
     end
-    touch "somefile"
+    touch("somefile")
     mkdir "foo/bar/thing", { :p => nil }
+    echo("foo") | wc({:c => nil})
   end
 
   __chdir "/tmp" do

@@ -1,21 +1,19 @@
+INDENT_PADDING="  "
+
 class ShellProxy
 
-  INDENT_PADDING="  "
-
-  def initialize
-    @indent = 0
-  end
-
   def __main__(&block)
+    @cmd_buffer = CmdBuffer.new
     instance_exec(&block)
+    @cmd_buffer.write(__writer)
   end
 
   def __subshell(&block)
-    __emit("(")
-    @indent += 1
+    @cmd_buffer << "("
+    @cmd_buffer.indent
     yield
-    @indent -= 1
-    __emit(")")
+    @cmd_buffer.undent
+    @cmd_buffer << ")"
   end
 
   def __chdir(dir, &block)
@@ -33,15 +31,21 @@ class ShellProxy
              {}
            end
 
+    stub = CmdStub.new
+    stub.emitter = Proc.new do |d|
+      last = @cmd_buffer.pop
+      @cmd_buffer << d
+      @cmd_buffer << last
+    end
+
     cmd = sym.to_s
     cmd << " #{__process_opts(opts)}" unless opts.empty?
     cmd << " #{__process_args(args)}"  unless args.empty?
-    __emit cmd
+    @cmd_buffer << cmd
+    stub
   end
 
   def __emit(str)
-    __writer.write(INDENT_PADDING * @indent)
-    __writer.puts(str)
     __writer.flush
   end
 
@@ -76,6 +80,50 @@ class ShellProxy
     "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
   end
 
+end
+
+class CmdStub
+  def emitter=(block)
+    @emitter = block
+  end
+
+  def emit(data)
+    @emitter.call(data)
+  end
+
+  def |(other)
+    emit(" | ")
+  end
+end
+
+class CmdBuffer
+  def initialize
+    @indent = 0
+    @buffer = []
+  end
+
+  def indent
+    @indent += 1
+  end
+
+  def undent
+    @indent -= 1
+  end
+
+  def << (other)
+    @buffer << "#{INDENT_PADDING * @indent}#{other}"
+  end
+
+  def pop
+    @buffer.pop
+  end
+
+  def write(buf)
+    @buffer.each do |l|
+      buf.puts l
+    end
+    buf.flush
+  end
 end
 
 class ShellWriter
