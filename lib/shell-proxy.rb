@@ -31,12 +31,7 @@ class ShellProxy
              {}
            end
 
-    stub = CmdStub.new
-    stub.emitter = Proc.new do |d|
-      last = @cmd_buffer.pop
-      @cmd_buffer << d
-      @cmd_buffer << last
-    end
+    stub = CmdStub.new(@cmd_buffer)
 
     cmd = sym.to_s
     cmd << " #{__process_opts(opts)}" unless opts.empty?
@@ -83,8 +78,8 @@ class ShellProxy
 end
 
 class CmdStub
-  def emitter=(block)
-    @emitter = block
+  def initialize(buffer)
+    @buffer = buffer
   end
 
   def emit(data)
@@ -92,7 +87,9 @@ class CmdStub
   end
 
   def |(other)
-    emit(" | ")
+    # Append a pipe to the second last command in the stack
+    last = @buffer.pop
+    @buffer << "#{@buffer.pop} | #{last.strip}"
   end
 end
 

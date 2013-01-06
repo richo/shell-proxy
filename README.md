@@ -43,9 +43,7 @@ cd 'Somedir'
   )
   touch 'somefile'
   mkdir '-p' 'foo/bar/thing'
-  echo 'foo'
-  wc '-c'
-   | 
+    echo 'foo' | wc '-c'
 )
 (
   cd '/tmp'
