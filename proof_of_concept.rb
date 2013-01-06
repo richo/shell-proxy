@@ -1,4 +1,4 @@
-require './shell_proxy'
+require './lib/shell-proxy'
 
 ShellProxy.new.__main__ do
   cd "Somedir"

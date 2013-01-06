@@ -1,5 +1,5 @@
 require 'rspec'
-require File.expand_path("../shell_proxy.rb", __FILE__)
+require File.expand_path("../lib/shell-proxy.rb", __FILE__)
 
 describe "ShellProxy" do
   before(:each) do
