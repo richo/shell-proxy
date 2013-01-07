@@ -9,6 +9,10 @@ ShellProxy.new.__main__ do
       cd "borp"
       touch "thing"
     end
+    %w[foo bar baz].each do |dir|
+      mkdir dir
+      touch "#{dir}/#{dir}"
+    end
     touch("somefile")
     mkdir "foo/bar/thing", { :p => nil }
     echo("foo") | wc({:c => nil})
