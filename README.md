@@ -11,6 +11,10 @@ require './lib/shell-proxy'
 ShellProxy.new.__main__ do
   cd "Somedir"
 
+  __function("butts_function") do
+    touch "butts"
+  end
+
   __subshell do
     __subshell do
       mkdir "borp"
@@ -39,6 +43,9 @@ outputs:
 
 ```bash
 cd 'Somedir'
+function butts_function() {
+  touch 'butts'
+}
 (
   (
     mkdir 'borp'

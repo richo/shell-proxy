@@ -23,6 +23,14 @@ class ShellProxy
     end
   end
 
+  def __function(name, &block)
+    @cmd_buffer << "function #{name}() {"
+    @cmd_buffer.indent
+    yield
+    @cmd_buffer.undent
+    @cmd_buffer << "}"
+  end
+
   def method_missing(sym, *args)
     opts = case args[-1]
            when Hash

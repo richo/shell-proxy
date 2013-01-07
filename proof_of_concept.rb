@@ -3,6 +3,10 @@ require './lib/shell-proxy'
 ShellProxy.new.__main__ do
   cd "Somedir"
 
+  __function("butts_function") do
+    touch "butts"
+  end
+
   __subshell do
     __subshell do
       mkdir "borp"
