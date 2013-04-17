@@ -28,6 +28,8 @@ ShellProxy.new.__main__ do
 
   __eval("foo=$RANDOM")
 
+  some | thing | some | other | thing
+
   __case(raw("$foo")) do |c|
     c.when(10000) do
       echo "holy shit, did not expect that"
