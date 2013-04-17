@@ -26,7 +26,7 @@ ShellProxy.new.__main__ do
     touch "rawr"
   end
 
-  __eval("foo=$RANDOM")
+  __set("foo", bare("$RANDOM"))
 
   some | thing | some | other | thing
 

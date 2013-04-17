@@ -58,6 +58,14 @@ class ShellProxy
     IfStub.new(condition, &block).__handle(@cmd_buffer)
   end
 
+  def __set(variable, value)
+    __eval("#{variable}=#{__escapinate(value)}")
+  end
+
+  def __return(val)
+    __eval("return #{__escapinate(val)}")
+  end
+
   def __function(name, &block)
     @cmd_buffer << "function #{name}() {"
     @cmd_buffer.indent
