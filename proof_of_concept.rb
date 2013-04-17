@@ -45,4 +45,16 @@ ShellProxy.new.__main__ do
 
   rm "foo",  { :r => nil, :f => nil }
   mongod({ :config => "/usr/local/etc/mongod.conf" })
+
+  __if(raw("[[ $foo == 'foo' ]]")) do |c|
+    c.then do
+      echo "it was true"
+    end
+    c.elseif(raw("[[ bar == bar ]]")) do
+      echo "this is definitely true"
+    end
+    c.else do
+      echo "This wont be reached"
+    end
+  end
 end

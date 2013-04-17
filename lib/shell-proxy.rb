@@ -1,6 +1,7 @@
 require_relative 'shell-proxy/escaping'
 require_relative 'shell-proxy/case'
 require_relative 'shell-proxy/for'
+require_relative 'shell-proxy/if'
 
 INDENT_PADDING="  "
 
@@ -51,6 +52,10 @@ class ShellProxy
 
   def __for(over, iter, &block)
     ForStub.new(over, iter, &block).__handle(@cmd_buffer)
+  end
+
+  def __if(condition, &block)
+    IfStub.new(condition, &block).__handle(@cmd_buffer)
   end
 
   def __function(name, &block)
