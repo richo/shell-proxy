@@ -147,9 +147,16 @@ class CaseStub
 end
 
 class CaseHandler
-  include Escaping
   def initialize(buffer)
     @buffer = buffer
+  end
+
+  def __escapinate(v)
+    if v.empty?
+      '""'
+    else
+      v
+    end
   end
 
   def when(opt, &block)
