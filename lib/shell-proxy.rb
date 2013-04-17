@@ -98,6 +98,7 @@ class CmdStub
     # Append a pipe to the second last command in the stack
     last = @buffer.pop
     @buffer << "#{@buffer.pop} | #{last.strip}"
+    self
   end
 end
 
