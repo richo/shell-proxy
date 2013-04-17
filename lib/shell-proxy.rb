@@ -23,6 +23,10 @@ class ShellProxy
     end
   end
 
+  def __case(value, &block)
+    CaseStub.new(value, &block).__handle(@cmd_buffer)
+  end
+
   def __function(name, &block)
     @cmd_buffer << "function #{name}() {"
     @cmd_buffer.indent
@@ -99,6 +103,32 @@ class CmdStub
     last = @buffer.pop
     @buffer << "#{@buffer.pop} | #{last.strip}"
     self
+  end
+end
+
+class CaseStub
+  def initialize(value, &block)
+    @value = value
+    @block = block
+  end
+
+  def __handle(buffer)
+    handler = CaseHandler.new(buffer)
+    @block.call(handler)
+  end
+end
+
+class CaseHandler
+  def initialize(buffer)
+    @buffer = buffer
+  end
+
+  def when(opt, &block)
+    @buffer << "#{opt})"
+    @buffer.indent
+    yield
+    @buffer.undent
+    @buffer << ";;"
   end
 end
 
