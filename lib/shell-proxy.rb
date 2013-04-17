@@ -10,7 +10,21 @@ def raw(s)
   RawString.new(s)
 end
 
+module Escaping
+  def __escapinate(v)
+    case v
+    when RawString
+      v.quote
+    when String
+      "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
+    when Fixnum
+      v
+    end
+  end
+end
+
 class ShellProxy
+  include Escaping
 
   def __main__(&block)
     @cmd_buffer = CmdBuffer.new
@@ -97,17 +111,6 @@ class ShellProxy
     end
   end
 
-  def __escapinate(v)
-    case v
-    when RawString
-      v.quote
-    when String
-      "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
-    when Fixnum
-      v
-    end
-  end
-
 end
 
 class CmdStub
@@ -144,12 +147,13 @@ class CaseStub
 end
 
 class CaseHandler
+  include Escaping
   def initialize(buffer)
     @buffer = buffer
   end
 
   def when(opt, &block)
-    @buffer << "#{opt})"
+    @buffer << "#{__escapinate(opt)})"
     @buffer.indent
     yield
     @buffer.undent
