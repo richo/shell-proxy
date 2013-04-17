@@ -47,6 +47,10 @@ ShellProxy.new.__main__ do
     end
   end
 
+  __for(bare("foo bar baz"), "i") do
+    echo raw("$i")
+  end
+
   rm "foo",  { :r => nil, :f => nil }
   mongod({ :config => "/usr/local/etc/mongod.conf" })
 end
@@ -89,6 +93,9 @@ case "$foo" in
     echo 'Welp, that was predictable'
   ;;
 esac
+for i in foo bar baz; do
+  echo "$i"
+done
 rm '-r' '-f' 'foo'
 mongod '--config' '/usr/local/etc/mongod.conf'
 ```

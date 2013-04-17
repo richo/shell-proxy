@@ -29,7 +29,7 @@ class CaseHandler
   end
 
   def when(opt, &block)
-    @buffer << "#{__escapinate(opt)})"
+    @buffer << "#{__escapinate(opt.to_s)})"
     @buffer.indent
     yield
     @buffer.undent

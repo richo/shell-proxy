@@ -39,6 +39,10 @@ ShellProxy.new.__main__ do
     end
   end
 
+  __for(bare("foo bar baz"), "i") do
+    echo raw("$i")
+  end
+
   rm "foo",  { :r => nil, :f => nil }
   mongod({ :config => "/usr/local/etc/mongod.conf" })
 end
