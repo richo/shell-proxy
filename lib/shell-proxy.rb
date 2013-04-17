@@ -6,8 +6,15 @@ class RawString < String
   end
 end
 
+class BareString < String
+end
+
 def raw(s)
   RawString.new(s)
+end
+
+def bare(s)
+  BareString.new(s)
 end
 
 module Escaping
@@ -15,6 +22,8 @@ module Escaping
     case v
     when RawString
       v.quote
+    when BareString
+      v
     when String
       "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
     when Fixnum
