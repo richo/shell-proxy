@@ -84,7 +84,12 @@ class ShellProxy
   end
 
   def __escapinate(v)
-    "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
+    case v
+    when String
+      "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
+    when Fixnum
+      v
+    end
   end
 
 end
@@ -114,7 +119,11 @@ class CaseStub
 
   def __handle(buffer)
     handler = CaseHandler.new(buffer)
+    buffer << "case #{@value} in"
+    buffer.indent
     @block.call(handler)
+    buffer.undent
+    buffer << "esac"
   end
 end
 
