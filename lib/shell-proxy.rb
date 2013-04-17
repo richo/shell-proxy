@@ -24,10 +24,10 @@ end
 class ShellProxy
   include Escaping
 
-  def __main__(&block)
+  def __main__(writer = nil, &block)
     @cmd_buffer = CmdBuffer.new
     instance_exec(&block)
-    @cmd_buffer.write(__writer)
+    @cmd_buffer.write(writer || __writer)
   end
 
   def __subshell(&block)
@@ -47,6 +47,10 @@ class ShellProxy
 
   def __case(value, &block)
     CaseStub.new(__escapinate(value), &block).__handle(@cmd_buffer)
+  end
+
+  def __for(over, iter, &block)
+    ForStub.new(over, iter, &block).__handle(@cmd_buffer)
   end
 
   def __function(name, &block)
