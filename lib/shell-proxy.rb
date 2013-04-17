@@ -1,5 +1,15 @@
 INDENT_PADDING="  "
 
+class RawString < String
+  def quote
+    inspect
+  end
+end
+
+def raw(s)
+  RawString.new(s)
+end
+
 class ShellProxy
 
   def __main__(&block)
@@ -24,7 +34,7 @@ class ShellProxy
   end
 
   def __case(value, &block)
-    CaseStub.new(value, &block).__handle(@cmd_buffer)
+    CaseStub.new(__escapinate(value), &block).__handle(@cmd_buffer)
   end
 
   def __function(name, &block)
@@ -85,6 +95,8 @@ class ShellProxy
 
   def __escapinate(v)
     case v
+    when RawString
+      v.quote
     when String
       "'#{v.gsub(/'/, "\\'").gsub("\\", "\\\\")}'"
     when Fixnum
