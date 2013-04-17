@@ -34,6 +34,17 @@ ShellProxy.new.__main__ do
     touch "rawr"
   end
 
+  __eval("foo=$RANDOM")
+
+  __case(raw("$foo")) do |c|
+    c.when(10000) do
+      echo "holy shit, did not expect that"
+    end
+    c.when("*") do
+      echo "Welp, that was predictable"
+    end
+  end
+
   rm "foo",  { :r => nil, :f => nil }
   mongod({ :config => "/usr/local/etc/mongod.conf" })
 end
@@ -66,6 +77,15 @@ function butts_function() {
   cd '/tmp'
   touch 'rawr'
 )
+foo=$RANDOM
+case "$foo" in
+  10000)
+    echo 'holy shit, did not expect that'
+  ;;
+  *)
+    echo 'Welp, that was predictable'
+  ;;
+esac
 rm '-r' '-f' 'foo'
 mongod '--config' '/usr/local/etc/mongod.conf'
 ```

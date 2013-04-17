@@ -62,6 +62,10 @@ class ShellProxy
     stub
   end
 
+  def __eval(str)
+    @cmd_buffer << str
+  end
+
   def __emit(str)
     __writer.flush
   end
