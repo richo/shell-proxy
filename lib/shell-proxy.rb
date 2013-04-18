@@ -62,6 +62,12 @@ class ShellProxy
     __eval("#{variable}=#{__escapinate(value)}")
   end
 
+  def __export(variable, value=nil)
+    export = "export #{variable}"
+    export << "=#{__escapinate(value)}" if value
+    __eval(export)
+  end
+
   def __return(val)
     __eval("return #{__escapinate(val)}")
   end
