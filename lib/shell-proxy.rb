@@ -1,7 +1,11 @@
-require_relative 'shell-proxy/escaping'
-require_relative 'shell-proxy/case'
-require_relative 'shell-proxy/for'
-require_relative 'shell-proxy/if'
+%w[
+  escaping.rb
+  case.rb
+  for.rb
+  if.rb
+].each do |f|
+  require File.expand_path("../shell-proxy/#{f}", __FILE__)
+end
 
 INDENT_PADDING="  "
 
