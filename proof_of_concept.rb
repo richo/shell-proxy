@@ -14,9 +14,11 @@ end
 ShellProxy.new.__main__ do
   cd "Somedir"
 
-  __function("butts_function") do
+  __function("Butts_function") do
     touch "butts"
   end
+
+  if ARGV[0] != "VimProxy"
 
   __subshell do
     __subshell do
@@ -67,5 +69,6 @@ ShellProxy.new.__main__ do
     c.else do
       echo "This wont be reached"
     end
+  end
   end
 end

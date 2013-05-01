@@ -22,9 +22,11 @@ end
 ShellProxy.new.__main__ do
   cd "Somedir"
 
-  __function("butts_function") do
+  __function("Butts_function") do
     touch "butts"
   end
+
+  if ARGV[0] != "VimProxy"
 
   __subshell do
     __subshell do
@@ -76,6 +78,7 @@ ShellProxy.new.__main__ do
       echo "This wont be reached"
     end
   end
+  end
 end
 ```
 
@@ -83,7 +86,7 @@ When invoked with `PosixProxy`, outputs:
 
 ```bash
 cd 'Somedir'
-function butts_function() {
+function Butts_function() {
   touch 'butts'
 }
 (
@@ -134,4 +137,8 @@ fi
 Or if invoked with VimProxy, outputs:
 
 ```VimL
+cd Somedir
+function! Butts_function()
+  !touch butts
+endfunction
 ```
