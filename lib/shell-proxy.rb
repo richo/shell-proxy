@@ -17,6 +17,7 @@ end
   cmd_buffer.rb
   shell_writer.rb
   posix.rb
+  vim.rb
 ].each do |f|
   require File.expand_path("../shell-proxy/#{f}", __FILE__)
 end

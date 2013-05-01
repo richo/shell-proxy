@@ -1,7 +1,14 @@
 require './lib/shell-proxy'
 
 class ShellProxy
-  include PosixProxy
+  case ARGV[0]
+  when "PosixProxy"
+    include PosixProxy
+  when "VimProxy"
+    include VimProxy
+  else
+    raise "usage #{$0}: <PosixProxy|VimProxy>"
+  end
 end
 
 ShellProxy.new.__main__ do

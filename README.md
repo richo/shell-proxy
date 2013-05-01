@@ -9,7 +9,14 @@ Inputs:
 require './lib/shell-proxy'
 
 class ShellProxy
-  include PosixProxy
+  case ARGV[0]
+  when "PosixProxy"
+    include PosixProxy
+  when "VimProxy"
+    include VimProxy
+  else
+    raise "usage #{$0}: <PosixProxy|VimProxy>"
+  end
 end
 
 ShellProxy.new.__main__ do
@@ -72,7 +79,7 @@ ShellProxy.new.__main__ do
 end
 ```
 
-outputs:
+When invoked with `PosixProxy`, outputs:
 
 ```bash
 cd 'Somedir'
@@ -122,4 +129,9 @@ else if [[ bar == bar ]]
 else
   echo 'This wont be reached'
 fi
+```
+
+Or if invoked with VimProxy, outputs:
+
+```VimL
 ```
