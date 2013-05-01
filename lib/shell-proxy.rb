@@ -28,7 +28,3 @@ end
 def bare(s)
   BareString.new(s)
 end
-
-class ShellProxy
-  include PosixProxy
-end

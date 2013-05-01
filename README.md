@@ -8,6 +8,10 @@ Inputs:
 ```ruby
 require './lib/shell-proxy'
 
+class ShellProxy
+  include PosixProxy
+end
+
 ShellProxy.new.__main__ do
   cd "Somedir"
 
