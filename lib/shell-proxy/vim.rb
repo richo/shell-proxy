@@ -17,4 +17,21 @@ module VimProxy include CommonProxy
     __eval("!touch #{file}")
   end
 
+  def __subshell(&block)
+    @cmd_buffer << '" subshell currently not implemented'
+  end
+
+  def __chdir(dir, &block)
+    __eval "let __here=\"cd \" . getcwd()"
+    __eval "cd #{dir}"
+    @cmd_buffer.indent
+    block.call
+    @cmd_buffer.undent
+    __eval "exec __here"
+  end
+
+  def __set(variable, value)
+    __eval "let #{variable}=#{value}"
+  end
+
 end

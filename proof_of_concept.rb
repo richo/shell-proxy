@@ -18,8 +18,6 @@ ShellProxy.new.__main__ do
     touch "butts"
   end
 
-  if ARGV[0] != "VimProxy"
-
   __subshell do
     __subshell do
       mkdir "borp"
@@ -40,6 +38,8 @@ ShellProxy.new.__main__ do
   end
 
   __set("foo", bare("$RANDOM"))
+
+  if ARGV[0] != "VimProxy"
 
   some | thing | some | other | thing
 

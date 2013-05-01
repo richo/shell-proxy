@@ -26,8 +26,6 @@ ShellProxy.new.__main__ do
     touch "butts"
   end
 
-  if ARGV[0] != "VimProxy"
-
   __subshell do
     __subshell do
       mkdir "borp"
@@ -48,6 +46,8 @@ ShellProxy.new.__main__ do
   end
 
   __set("foo", bare("$RANDOM"))
+
+  if ARGV[0] != "VimProxy"
 
   some | thing | some | other | thing
 
@@ -141,4 +141,10 @@ cd Somedir
 function! Butts_function()
   !touch butts
 endfunction
+" subshell currently not implemented
+let __here="cd " . getcwd()
+cd /tmp
+  !touch rawr
+exec __here
+let foo=$RANDOM
 ```

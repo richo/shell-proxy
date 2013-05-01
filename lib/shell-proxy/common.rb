@@ -1,6 +1,6 @@
 module CommonProxy
-  def __main__(writer = nil, &block)
-    @cmd_buffer = CmdBuffer.new
+  def __main__(writer = nil, buffer = nil, &block)
+    @cmd_buffer = buffer || CmdBuffer.new
     instance_exec(&block)
     @cmd_buffer.write(writer || __writer)
   end
