@@ -59,7 +59,7 @@ module PosixProxy
   end
 
   def __function(name, &block)
-    @cmd_buffer << "function #{name}() {"
+    @cmd_buffer << "#{name}() {"
     @cmd_buffer.indent
     yield
     @cmd_buffer.undent
