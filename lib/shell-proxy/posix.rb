@@ -83,18 +83,6 @@ module PosixProxy
     stub
   end
 
-  def __eval(str)
-    @cmd_buffer << str
-  end
-
-  def __emit(str)
-    __writer.flush
-  end
-
-  def __writer
-    @writer ||= ShellWriter.new($stdout)
-  end
-
   def __process_args(args)
     args.map do |v|
       __escapinate(v)
