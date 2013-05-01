@@ -54,6 +54,17 @@ module PosixProxy
     __eval(export)
   end
 
+  def __call(fn, *args)
+    call = fn
+    unless args.empty?
+      call << " "
+      call << args.map do |arg|
+        __escapinate(arg)
+      end.join(" ")
+    end
+    __eval(call)
+  end
+
   def __return(val)
     __eval("return #{__escapinate(val)}")
   end
