@@ -5,7 +5,7 @@ module VimProxy include CommonProxy
   end
 
   def __function(name, &block)
-    raise InvalidMethodName, "Methods must start with caps" unless name[0] =~ /[A-Z]/
+    raise InvalidMethodName, "Methods must start with caps" unless (name =~ /[A-Z]/) == 0
     @cmd_buffer << "function! #{name}()"
     @cmd_buffer.indent
     yield
