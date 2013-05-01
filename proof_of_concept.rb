@@ -18,6 +18,8 @@ ShellProxy.new.__main__ do
     touch "butts"
   end
 
+  __call("Butts_function", raw("rawr"))
+
   __subshell do
     __subshell do
       mkdir "borp"

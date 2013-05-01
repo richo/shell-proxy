@@ -26,6 +26,8 @@ ShellProxy.new.__main__ do
     touch "butts"
   end
 
+  __call("Butts_function", raw("rawr"))
+
   __subshell do
     __subshell do
       mkdir "borp"
@@ -89,6 +91,7 @@ cd 'Somedir'
 Butts_function() {
   touch 'butts'
 }
+Butts_function "rawr"
 (
   (
     mkdir 'borp'
@@ -141,6 +144,7 @@ cd Somedir
 function! Butts_function()
   !touch butts
 endfunction
+call Butts_function(rawr)
 " subshell currently not implemented
 let __here="cd " . getcwd()
 cd /tmp

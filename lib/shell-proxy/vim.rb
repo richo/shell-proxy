@@ -34,4 +34,12 @@ module VimProxy include CommonProxy
     __eval "let #{variable}=#{value}"
   end
 
+  def __call(fn, *args)
+    opts = (args.last.is_a? Hash) ? args.pop : {}
+    prefix = opts.include?(:prefix) ? "#{opts[:prefix]}:" : ""
+    call = "call #{prefix}#{fn}("
+    call << args.join(", ")
+    call << ")"
+    __eval(call)
+  end
 end
