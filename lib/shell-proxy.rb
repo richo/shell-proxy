@@ -1,7 +1,3 @@
-module CommonProxy
-
-end
-
 INDENT_PADDING="  "
 
 class RawString < String
@@ -14,6 +10,7 @@ class BareString < String
 end
 
 %w[
+  common.rb
   cmd_buffer.rb
   shell_writer.rb
   posix.rb
