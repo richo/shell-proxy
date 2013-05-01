@@ -13,12 +13,6 @@ end
 module PosixProxy
   include Escaping
 
-  def __main__(writer = nil, &block)
-    @cmd_buffer = CmdBuffer.new
-    instance_exec(&block)
-    @cmd_buffer.write(writer || __writer)
-  end
-
   def __subshell(&block)
     @cmd_buffer << "("
     @cmd_buffer.indent
