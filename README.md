@@ -86,7 +86,7 @@ When invoked with `PosixProxy`, outputs:
 
 ```bash
 cd 'Somedir'
-function Butts_function() {
+Butts_function() {
   touch 'butts'
 }
 (
