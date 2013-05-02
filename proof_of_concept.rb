@@ -20,6 +20,14 @@ ShellProxy.new.__main__ do
 
   __call("Butts_function", raw("rawr"))
 
+  __function("ArgumentTakingFunction", 3) do
+    echo args[1]
+    echo args[2]
+    echo args[3]
+  end
+
+  __call("ArgumentTakingFunction", raw("rawr"), raw("butts"), raw("lol"))
+
   __subshell do
     __subshell do
       mkdir "borp"

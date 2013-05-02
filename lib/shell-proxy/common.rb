@@ -17,4 +17,8 @@ module CommonProxy
   def __writer
     @writer ||= ShellWriter.new($stdout)
   end
+
+  def args
+    arg_stack.current
+  end
 end

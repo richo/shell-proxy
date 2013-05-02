@@ -81,10 +81,6 @@ module PosixProxy
     @cmd_buffer << "}"
   end
 
-  def args
-    arg_stack.current
-  end
-
   def arg_stack
     @arg_stack ||= ArgStack.new(ArgProxy)
   end

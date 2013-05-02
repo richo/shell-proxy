@@ -28,6 +28,14 @@ ShellProxy.new.__main__ do
 
   __call("Butts_function", raw("rawr"))
 
+  __function("ArgumentTakingFunction", 3) do
+    echo args[1]
+    echo args[2]
+    echo args[3]
+  end
+
+  __call("ArgumentTakingFunction", raw("rawr"), raw("butts"), raw("lol"))
+
   __subshell do
     __subshell do
       mkdir "borp"
@@ -92,6 +100,12 @@ Butts_function() {
   touch 'butts'
 }
 Butts_function "rawr"
+ArgumentTakingFunction() {
+  echo "$1"
+  echo "$2"
+  echo "$3"
+}
+ArgumentTakingFunction "rawr" "butts" "lol"
 (
   (
     mkdir 'borp'
@@ -145,6 +159,12 @@ function! Butts_function()
   !touch butts
 endfunction
 call Butts_function(rawr)
+function! ArgumentTakingFunction(arg1, arg2, arg3)
+  echo a:arg1
+  echo a:arg2
+  echo a:arg3
+endfunction
+call ArgumentTakingFunction(rawr, butts, lol)
 " subshell currently not implemented
 let __here="cd " . getcwd()
 cd /tmp

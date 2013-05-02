@@ -1,14 +1,22 @@
+%w[
+  arg_proxy.rb
+].each do |f|
+  require File.expand_path("../vim/#{f}", __FILE__)
+end
 module VimProxy include CommonProxy
   class InvalidMethodName < Exception; end
   def cd(dir)
     __eval("cd #{dir}")
   end
 
-  def __function(name, &block)
+  def __function(name, arity = nil, &block)
     raise InvalidMethodName, "Methods must start with caps" unless (name =~ /[A-Z]/) == 0
-    @cmd_buffer << "function! #{name}()"
+    args = arity && (1..arity).map { |n| "arg#{n}" }.join(", ")
+    @cmd_buffer << "function! #{name}(#{args})"
     @cmd_buffer.indent
+    arg_stack.push(arity)
     yield
+    arg_stack.pop
     @cmd_buffer.undent
     @cmd_buffer << "endfunction"
   end
@@ -41,5 +49,13 @@ module VimProxy include CommonProxy
     call << args.join(", ")
     call << ")"
     __eval(call)
+  end
+
+  def arg_stack
+    @arg_stack ||= ArgStack.new(ArgProxy)
+  end
+
+  def echo(arg)
+    __eval("echo #{arg}")
   end
 end
