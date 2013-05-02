@@ -17,5 +17,4 @@ module CommonProxy
   def __writer
     @writer ||= ShellWriter.new($stdout)
   end
-
 end

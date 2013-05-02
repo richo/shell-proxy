@@ -6,6 +6,8 @@ end
   case.rb
   for.rb
   if.rb
+
+  arg_proxy.rb
 ].each do |f|
   require File.expand_path("../posix/#{f}", __FILE__)
 end
@@ -69,12 +71,22 @@ module PosixProxy
     __eval("return #{__escapinate(val)}")
   end
 
-  def __function(name, &block)
+  def __function(name, arity=nil, &block)
     @cmd_buffer << "#{name}() {"
     @cmd_buffer.indent
+    arg_stack.push(arity)
     yield
+    arg_stack.pop
     @cmd_buffer.undent
     @cmd_buffer << "}"
+  end
+
+  def args
+    arg_stack.current
+  end
+
+  def arg_stack
+    @arg_stack ||= ArgStack.new(ArgProxy)
   end
 
   def method_missing(sym, *args)

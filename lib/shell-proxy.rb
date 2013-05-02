@@ -12,6 +12,7 @@ end
 %w[
   common.rb
   cmd_buffer.rb
+  arg_stack.rb
   shell_writer.rb
   posix.rb
   vim.rb
