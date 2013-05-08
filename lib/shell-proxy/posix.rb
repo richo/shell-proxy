@@ -8,6 +8,7 @@ end
   if.rb
 
   string_comparator.rb
+  number_comparator.rb
 
   arg_proxy.rb
 ].each do |f|
@@ -29,6 +30,8 @@ module PosixProxy
     case this
     when String
       StringComparator.new(this)
+    when FixNum, BigNum
+      NumberComparator.new(this)
     end
   end
 
