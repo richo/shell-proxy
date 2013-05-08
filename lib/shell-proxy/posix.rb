@@ -26,8 +26,8 @@ module PosixProxy
     @cmd_buffer << ")"
   end
 
-  def cmp(this)
-    case this
+  def cmp(this, type=nil)
+    case (type || this)
     when String
       StringComparator.new(this)
     when FixNum, BigNum
