@@ -7,6 +7,8 @@ end
   for.rb
   if.rb
 
+  string_comparator.rb
+
   arg_proxy.rb
 ].each do |f|
   require File.expand_path("../posix/#{f}", __FILE__)
@@ -21,6 +23,13 @@ module PosixProxy
     yield
     @cmd_buffer.undent
     @cmd_buffer << ")"
+  end
+
+  def cmp(this)
+    case this
+    when String
+      StringComparator.new(this)
+    end
   end
 
   def __chdir(dir, &block)
