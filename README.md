@@ -77,11 +77,11 @@ ShellProxy.new.__main__ do
   rm "foo",  { :r => nil, :f => nil }
   mongod({ :config => "/usr/local/etc/mongod.conf" })
 
-  __if(raw("[[ $foo == 'foo' ]]")) do |c|
+  __if(cmp(raw("$foo")).eq('foo')) do |c|
     c.then do
       echo "it was true"
     end
-    c.elseif(raw("[[ bar == bar ]]")) do
+    c.elseif(cmp(raw("bar")).eq('bar')) do
       echo "this is definitely true"
     end
     c.else do
@@ -141,10 +141,10 @@ for i in foo bar baz; do
 done
 rm '-r' '-f' 'foo'
 mongod '--config' '/usr/local/etc/mongod.conf'
-if [[ $foo == 'foo' ]]
+if [ "$foo" = 'foo' ]
 then
   echo 'it was true'
-else if [[ bar == bar ]]
+else if [ "bar" = 'bar' ]
   echo 'this is definitely true'
 else
   echo 'This wont be reached'
