@@ -10,7 +10,7 @@ module VimProxy include CommonProxy
   end
 
   def __function(name, arity = nil, &block)
-    raise InvalidMethodName, "Methods must start with caps" unless (name =~ /[A-Z]/) == 0
+    raise InvalidMethodName, "Methods must start with caps" unless (name =~ /^[_A-Z]/) == 0
     args = arity && (1..arity).map { |n| "arg#{n}" }.join(", ")
     @cmd_buffer << "function! #{name}(#{args})"
     @cmd_buffer.indent
