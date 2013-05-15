@@ -58,6 +58,10 @@ module PosixProxy
     __eval("#{variable}=#{__escapinate(value)}")
   end
 
+  def __set?(variable)
+    raw(%<[ -n "#{variable}" ]>)
+  end
+
   def __unset(*variables)
     __eval("unset #{variables.join(" ")}")
   end
