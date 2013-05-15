@@ -17,6 +17,10 @@ end
 
 module PosixProxy
   include Escaping
+  COMPARATORS = Hash.new { |h, k| raise "No comparator for #{k}" }
+  COMPARATORS[String] = StringComparator
+  COMPARATORS[Bignum] = NumberComparator
+  COMPARATORS[Fixnum] = NumberComparator
 
   def __subshell(&block)
     @cmd_buffer << "("
@@ -26,13 +30,8 @@ module PosixProxy
     @cmd_buffer << ")"
   end
 
-  def cmp(this, type=nil)
-    case (type || this)
-    when String
-      StringComparator.new(this)
-    when Fixnum, Bignum
-      NumberComparator.new(this)
-    end
+  def cmp(this, type)
+    COMPARATORS[type].new(this)
   end
 
   def __chdir(dir, &block)
