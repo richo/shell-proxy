@@ -69,11 +69,11 @@ ShellProxy.new.__main__ do
   rm "foo",  { :r => nil, :f => nil }
   mongod({ :config => "/usr/local/etc/mongod.conf" })
 
-  __if(cmp(raw("$foo")).eq('foo')) do |c|
+  __if(cmp(raw("$foo"), String).eq('foo')) do |c|
     c.then do
       echo "it was true"
     end
-    c.elseif(cmp(raw("bar")).eq('bar')) do
+    c.elseif(cmp(raw("bar"), String).eq('bar')) do
       echo "this is definitely true"
     end
     c.else do
