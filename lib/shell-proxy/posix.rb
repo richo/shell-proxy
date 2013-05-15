@@ -30,7 +30,7 @@ module PosixProxy
     case (type || this)
     when String
       StringComparator.new(this)
-    when FixNum, BigNum
+    when Fixnum, Bignum
       NumberComparator.new(this)
     end
   end
