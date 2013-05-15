@@ -71,6 +71,10 @@ module PosixProxy
     __eval(export)
   end
 
+  def basename(value)
+    raw("$(basename #{value})")
+  end
+
   def __call(fn, *args)
     call = fn
     unless args.empty?
