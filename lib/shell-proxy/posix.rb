@@ -10,6 +10,8 @@ end
   string_comparator.rb
   number_comparator.rb
 
+  replacer
+
   arg_proxy.rb
 ].each do |f|
   require File.expand_path("../posix/#{f}", __FILE__)
@@ -32,6 +34,10 @@ module PosixProxy
 
   def cmp(this, type)
     COMPARATORS[type].new(this)
+  end
+
+  def replace(text, opts={})
+    Replacer.new(text, opts)
   end
 
   def __chdir(dir, &block)
