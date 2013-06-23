@@ -57,10 +57,6 @@ ShellProxy.new.__main__ do
 
   __set("foo", bare("$RANDOM"))
 
-  if ARGV[0] != "VimProxy"
-
-  some | thing | some | other | thing
-
   __case(raw("$foo")) do |c|
     c.when(10000) do
       echo "holy shit, did not expect that"
@@ -69,6 +65,10 @@ ShellProxy.new.__main__ do
       echo "Welp, that was predictable"
     end
   end
+
+  if ARGV[0] != "VimProxy"
+
+  some | thing | some | other | thing
 
   __for(bare("foo bar baz"), "i") do
     echo raw("$i")
@@ -127,7 +127,6 @@ ArgumentTakingFunction "rawr" "butts" "lol"
   touch 'rawr'
 )
 foo=$RANDOM
-some | thing | some | other | thing
 case "$foo" in
   10000)
     echo 'holy shit, did not expect that'
@@ -136,6 +135,7 @@ case "$foo" in
     echo 'Welp, that was predictable'
   ;;
 esac
+some | thing | some | other | thing
 for i in foo bar baz; do
   echo "$i"
 done
@@ -171,4 +171,10 @@ cd /tmp
   !touch rawr
 exec __here
 let foo=$RANDOM
+let l:__case = $foo
+  if l:__case == 10000
+    echo holy shit, did not expect that
+  elseif l:__case == *
+    echo Welp, that was predictable
+endif
 ```

@@ -49,10 +49,6 @@ ShellProxy.new.__main__ do
 
   __set("foo", bare("$RANDOM"))
 
-  if ARGV[0] != "VimProxy"
-
-  some | thing | some | other | thing
-
   __case(raw("$foo")) do |c|
     c.when(10000) do
       echo "holy shit, did not expect that"
@@ -61,6 +57,10 @@ ShellProxy.new.__main__ do
       echo "Welp, that was predictable"
     end
   end
+
+  if ARGV[0] != "VimProxy"
+
+  some | thing | some | other | thing
 
   __for(bare("foo bar baz"), "i") do
     echo raw("$i")
