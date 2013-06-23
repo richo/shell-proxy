@@ -1,5 +1,6 @@
 %w[
   arg_proxy.rb
+  case.rb
 ].each do |f|
   require File.expand_path("../vim/#{f}", __FILE__)
 end
@@ -40,6 +41,10 @@ module VimProxy include CommonProxy
 
   def __set(variable, value)
     __eval "let #{variable}=#{value}"
+  end
+
+  def __case(value, &block)
+    CaseStub.new(value, &block).__handle(@cmd_buffer)
   end
 
   def __call(fn, *args)
