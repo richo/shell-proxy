@@ -9,6 +9,7 @@ end
 
   string_comparator.rb
   number_comparator.rb
+  fs_comparator.rb
 
   replacer
 
