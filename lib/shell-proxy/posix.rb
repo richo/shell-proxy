@@ -2,7 +2,9 @@ module PosixProxy include CommonProxy
 end
 
 %w[
+  builtins.rb
   escaping.rb
+
   case.rb
   for.rb
   if.rb
@@ -14,16 +16,20 @@ end
   replacer
 
   arg_proxy.rb
+  cmdstub.rb
 ].each do |f|
   require File.expand_path("../posix/#{f}", __FILE__)
 end
 
 module PosixProxy
   include Escaping
+  extend Builtins
   COMPARATORS = Hash.new { |h, k| raise "No comparator for #{k}" }
   COMPARATORS[String] = StringComparator
   COMPARATORS[Bignum] = NumberComparator
   COMPARATORS[Fixnum] = NumberComparator
+
+  builtin :echo
 
   def __subshell(&block)
     @cmd_buffer << "("
@@ -111,23 +117,6 @@ module PosixProxy
     @arg_stack ||= ArgStack.new(ArgProxy)
   end
 
-  def method_missing(sym, *args)
-    opts = case args[-1]
-           when Hash
-             args.pop
-           else
-             {}
-           end
-
-    stub = CmdStub.new(@cmd_buffer)
-
-    cmd = sym.to_s
-    cmd << " #{__process_opts(opts)}" unless opts.empty?
-    cmd << " #{__process_args(args)}"  unless args.empty?
-    @cmd_buffer << cmd
-    stub
-  end
-
   def __process_args(args)
     args.map do |v|
       __escapinate(v)
@@ -148,23 +137,6 @@ module PosixProxy
       k = (k.length == 1 ? "-" : "--") + k
       yield __escapinate(k)
       yield __escapinate(v) unless v.nil?
-    end
-  end
-
-  class CmdStub
-    def initialize(buffer)
-      @buffer = buffer
-    end
-
-    def emit(data)
-      @emitter.call(data)
-    end
-
-    def |(other)
-      # Append a pipe to the second last command in the stack
-      last = @buffer.pop
-      @buffer << "#{@buffer.pop} | #{last.strip}"
-      self
     end
   end
 
