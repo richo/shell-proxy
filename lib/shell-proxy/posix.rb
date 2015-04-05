@@ -54,6 +54,18 @@ module PosixProxy
     end
   end
 
+  def cd(dir)
+    __eval("cd #{dir}")
+  end
+
+  def mkdir(dir)
+    __eval("mkdir #{dir}")
+  end
+
+  def touch(file)
+    __eval("touch #{__escapinate file}")
+  end
+
   def __case(value, &block)
     CaseStub.new(__escapinate(value), &block).__handle(@cmd_buffer)
   end
