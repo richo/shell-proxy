@@ -61,7 +61,7 @@ ShellProxy.new.__main__ do
     c.when(10000) do
       echo "holy shit, did not expect that"
     end
-    c.when("*") do
+    c.else do
       echo "Welp, that was predictable"
     end
   end
