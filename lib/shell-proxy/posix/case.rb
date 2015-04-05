@@ -36,5 +36,9 @@ module PosixProxy
       @buffer.undent
       @buffer << ";;"
     end
+
+    def else(&block)
+      self.when("*", &block)
+    end
   end
 end
