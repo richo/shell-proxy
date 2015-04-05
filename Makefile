@@ -1,4 +1,4 @@
-readme:
+README.md: $(wildcard README/*) proof_of_concept.rb
 	cat README/1 > README.md
 	cat proof_of_concept.rb >> README.md
 	cat README/2 >> README.md
