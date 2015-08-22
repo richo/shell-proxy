@@ -8,6 +8,7 @@ end
   case.rb
   for.rb
   if.rb
+  temp.rb
 
   string_comparator.rb
   number_comparator.rb
@@ -76,6 +77,10 @@ module PosixProxy
 
   def __if(condition, &block)
     IfStub.new(condition, &block).__handle(@cmd_buffer)
+  end
+
+  def mkdtemp(&block)
+    MkTemp.new(@cmd_buffer).with(&block)
   end
 
   def __set(variable, value)
